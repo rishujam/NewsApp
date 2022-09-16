@@ -33,14 +33,17 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         val article =differ.currentList[position]
         holder.binding.apply {
             Glide.with(root).load(article.urlToImage).into(ivArticleImage)
-            ivArticleImage.setOnClickListener {
-                onItemClickListener?.let {it(article)  }
+            tvTitle.text=article.title
+            tvDescription.text=article.description
+            tvPublishedAt.text=article.publishedAt
+            cdRead.setOnClickListener {
+                onReadItemClickListener?.let { it(article) }
+            }
+            cdSave.setOnClickListener {
+                onSaveItemClickListener?.let { it(article) }
             }
         }
-        holder.binding.tvTitle.text=article.title
-        holder.binding.tvDescription.text=article.description
-        holder.binding.tvPublishedAt.text=article.publishedAt
-        holder.binding.tvSource.text=article.source.name
+
 
     }
 
@@ -48,9 +51,14 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         return differ.currentList.size
     }
 
-    private var onItemClickListener:((Article) -> Unit)? =null
+    private var onSaveItemClickListener: ((Article) -> Unit)? = null
+    private var onReadItemClickListener: ((Article) -> Unit)? = null
 
-    fun setOnItemClickListener(listener:(Article) ->Unit){
-        onItemClickListener=listener
+    fun saveClickListener(listener:(Article) -> Unit){
+        onSaveItemClickListener = listener
+    }
+
+    fun readClickListener(listener: (Article) -> Unit){
+        onReadItemClickListener = listener
     }
 }

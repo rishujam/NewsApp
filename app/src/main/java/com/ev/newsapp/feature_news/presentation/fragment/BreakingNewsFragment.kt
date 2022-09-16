@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ev.newsapp.MainActivity
 import com.ev.newsapp.databinding.FragmentBreakingNewsBinding
 import com.ev.newsapp.feature_news.presentation.NewsViewModel
 import com.ev.newsapp.feature_news.presentation.adapters.NewsAdapter
@@ -37,8 +38,19 @@ class BreakingNewsFragment: Fragment() {
 
         setupRecyclerView()
 
-        newsAdapter.setOnItemClickListener {
-            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+        newsAdapter.saveClickListener {
+            val saving = viewModel.saveArticle(it)
+            if(saving.isCompleted){
+                Toast.makeText(context, "Article Saved", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        newsAdapter.readClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable("art", it)
+            val detailNewsFragment = DetailNewsFragment()
+            detailNewsFragment.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(detailNewsFragment)
         }
 
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
@@ -59,6 +71,11 @@ class BreakingNewsFragment: Fragment() {
                     showProgressBar()
             }
         })
+
+        binding.cdSavedNews.setOnClickListener {
+            val savedNewsFragment = SavedNewsFragment()
+            (activity as MainActivity).setCurrentFragmentBack(savedNewsFragment)
+        }
     }
 
     private fun showProgressBar() {
