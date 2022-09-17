@@ -9,7 +9,7 @@ import com.ev.newsapp.feature_news.data.model.Article
     entities = [Article::class],
     version = 1
 )
-@TypeConverters(Converters::class)
+@TypeConverters(SourceConverters::class)
 abstract class ArticleDatabase: RoomDatabase() {
 
     abstract val dao:ArticleDao

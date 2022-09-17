@@ -3,7 +3,7 @@ package com.ev.newsapp.feature_news.di
 import android.app.Application
 import androidx.room.Room
 import com.ev.newsapp.feature_news.data.local.ArticleDatabase
-import com.ev.newsapp.feature_news.data.local.Converters
+import com.ev.newsapp.feature_news.data.local.SourceConverters
 import com.ev.newsapp.feature_news.data.remote.NewsApi
 import com.ev.newsapp.feature_news.data.repository.NewsRepository
 import com.ev.newsapp.feature_news.utils.Constants

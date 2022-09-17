@@ -29,11 +29,12 @@ class DetailNewsFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
-        val article = arguments?.getSerializable("art") to Article::class.java
+        val article = arguments?.getSerializable("art") as Article
         binding.webView.apply {
             webViewClient = WebViewClient()
-            loadUrl(article.)
+            loadUrl(article.url)
         }
+        binding.pbDetailNews.visibility = View.GONE
     }
 
     override fun onDestroyView() {

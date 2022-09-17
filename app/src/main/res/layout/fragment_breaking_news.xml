@@ -56,6 +56,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/ibSavedNews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/theme"
@@ -79,6 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cdSavedNews">
 
         <EditText
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_edittext"
@@ -97,10 +99,10 @@
         android:background="@color/white"
         android:src="@drawable/ic_sort"
         android:elevation="2dp"
-        android:paddingTop="8dp"
+        android:paddingTop="4dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="4dp"
         android:layout_marginRight="8dp"
         android:paddingLeft="16dp"
         android:paddingRight="8dp"

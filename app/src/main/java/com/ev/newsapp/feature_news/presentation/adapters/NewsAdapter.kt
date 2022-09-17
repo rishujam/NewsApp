@@ -1,6 +1,7 @@
 package com.ev.newsapp.feature_news.presentation.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +10,9 @@ import com.bumptech.glide.Glide
 import com.ev.newsapp.databinding.ItemArticleBinding
 import com.ev.newsapp.feature_news.data.model.Article
 
-class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter(
+    val isSavedFrag:Boolean
+): RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(val binding: ItemArticleBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -36,12 +39,24 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             tvTitle.text=article.title
             tvDescription.text=article.description
             tvPublishedAt.text=article.publishedAt
-            cdRead.setOnClickListener {
-                onReadItemClickListener?.let { it(article) }
+            if(isSavedFrag){
+                cdRead.visibility = View.INVISIBLE
+                tvSave.text = "Remove"
+                cdImage.setOnClickListener {
+                    onItemClickListener?.let { it(article) }
+                }
+                cdSave.setOnClickListener {
+                    onDeleteClickListener?.let { it(article) }
+                }
+            }else{
+                cdRead.setOnClickListener {
+                    onReadItemClickListener?.let { it(article) }
+                }
+                cdSave.setOnClickListener {
+                    onSaveItemClickListener?.let { it(article) }
+                }
             }
-            cdSave.setOnClickListener {
-                onSaveItemClickListener?.let { it(article) }
-            }
+
         }
 
 
@@ -51,6 +66,8 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         return differ.currentList.size
     }
 
+    private var onDeleteClickListener : ((Article) -> Unit)? = null
+    private var onItemClickListener: ((Article) -> Unit)? =null
     private var onSaveItemClickListener: ((Article) -> Unit)? = null
     private var onReadItemClickListener: ((Article) -> Unit)? = null
 
@@ -60,5 +77,13 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     fun readClickListener(listener: (Article) -> Unit){
         onReadItemClickListener = listener
+    }
+
+    fun onArticleClick(listener: (Article) -> Unit){
+        onItemClickListener = listener
+    }
+
+    fun onDeleteClick(listener: (Article) -> Unit){
+        onDeleteClickListener = listener
     }
 }
